@@ -4,7 +4,7 @@ namespace EverBill
     {
         public DateTime Date { get; set; }
 
-        //Just a checker
+        //Just
 
         public int TemperatureC { get; set; }
 

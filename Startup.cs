@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Serialization;
+﻿using Microsoft.Extensions.FileProviders;
+using Newtonsoft.Json.Serialization;
 
 
 namespace EverBill
@@ -44,14 +45,12 @@ namespace EverBill
                 endpoints.MapControllers();
             });
 
-            /*
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(
                     Path.Combine(Directory.GetCurrentDirectory(), "Photos")),
                 RequestPath = "/Photos"
             });
-            */
         }
 
 

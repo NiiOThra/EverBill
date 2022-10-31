@@ -29,3 +29,9 @@ C:\Users\niior\source\repos\EverBill\EverBill\obj\Debug\net6.0\refint\EverBill.d
 C:\Users\niior\source\repos\EverBill\EverBill\obj\Debug\net6.0\EverBill.pdb
 C:\Users\niior\source\repos\EverBill\EverBill\obj\Debug\net6.0\EverBill.genruntimeconfig.cache
 C:\Users\niior\source\repos\EverBill\EverBill\obj\Debug\net6.0\ref\EverBill.dll
+C:\Users\niior\source\repos\EverBill\EverBill\bin\Debug\net6.0\System.Data.SqlClient.dll
+C:\Users\niior\source\repos\EverBill\EverBill\bin\Debug\net6.0\runtimes\win-arm64\native\sni.dll
+C:\Users\niior\source\repos\EverBill\EverBill\bin\Debug\net6.0\runtimes\win-x64\native\sni.dll
+C:\Users\niior\source\repos\EverBill\EverBill\bin\Debug\net6.0\runtimes\win-x86\native\sni.dll
+C:\Users\niior\source\repos\EverBill\EverBill\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\niior\source\repos\EverBill\EverBill\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
