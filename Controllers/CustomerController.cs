@@ -6,7 +6,7 @@ namespace EverBill.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            
         }
     }
 }
