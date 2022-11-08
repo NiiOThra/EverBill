@@ -29,11 +29,10 @@ namespace EverBill.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            string query = @"
-                            select CustomerId, CustomerName, CustomerCVRnumber, CustomerPhoneNumber, CustomerAddress, CustomerEmail, ListOfProjects
-                            from
-                            dbo.Customer
-                            ";
+            string query = 
+            @"select 
+            CustomerId, CustomerName, CustomerCVRnumber, CustomerPhoneNumber, CustomerAddress, CustomerEmail, ListOfProjects
+            from dbo.Customer";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
@@ -56,11 +55,11 @@ namespace EverBill.Controllers
         [HttpPost]
         public JsonResult Post(Customer cus)
         {
-            string query = @"
-                           insert into dbo.Customer
-                           (CustomerName, CustomerCVRnumber, CustomerPhoneNumber, CustomerAddress, CustomerEmail, ListOfProjects)
-                    values (@CustomerName, @CustomerCVRnumber, @CustomerPhoneNumber, @CustomerAddress, @CustomerEmail, @ListOfProjects)
-                            ";
+            string query = 
+            @"insert into dbo.Customer
+            (CustomerName, CustomerCVRnumber, CustomerPhoneNumber, CustomerAddress, CustomerEmail, ListOfProjects)
+            values 
+            (@CustomerName, @CustomerCVRnumber, @CustomerPhoneNumber, @CustomerAddress, @CustomerEmail, @ListOfProjects)";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
@@ -90,16 +89,15 @@ namespace EverBill.Controllers
         [HttpPut]
         public JsonResult Put(Customer cus)
         {
-            string query = @"
-                           update dbo.Customer
-                           set CustomerName = @CustomerName,
-                            CustomerCVRnumber = @CustomerCVRnumber,
-                            CustomerPhoneNumber = @CustomerPhoneNumber,
-                            CustomerAddress = @CustomerAddress,
-                            CustomerEmail = @CustomerEmail,
-                            ListOfProjects = @ListOfProjects
-                            where CustomerId = @CustomerId
-                            ";
+            string query = 
+            @"update dbo.Customer set 
+            CustomerName = @CustomerName,
+            CustomerCVRnumber = @CustomerCVRnumber,
+            CustomerPhoneNumber = @CustomerPhoneNumber,
+            CustomerAddress = @CustomerAddress,
+            CustomerEmail = @CustomerEmail,
+            ListOfProjects = @ListOfProjects
+            where CustomerId = @CustomerId";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
