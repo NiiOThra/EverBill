@@ -15,11 +15,11 @@ namespace EverBill.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EmployeeController : ControllerBase
+    public class ContactPersonController : ControllerBase
     {
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _env;
-        public EmployeeController(IConfiguration configuration, IWebHostEnvironment env)
+        public ContactPersonController(IConfiguration configuration, IWebHostEnvironment env)
         {
             _configuration = configuration;
             _env = env;
@@ -54,13 +54,13 @@ namespace EverBill.Controllers
         }
         
         [HttpPost]
-        public JsonResult Post(Employee emp)
+        public JsonResult Post(ContactPerson conp)
         {
             string query = @"
                            insert into dbo.ContactPerson
                            (ContactFullName, ContactPhoneNumber, ContactCompany)
-                    values (@ContactFullName, @ContactPhoneNumber, @ContactCompany)
-                            ";
+                           values (@ContactFullName, @ContactPhoneNumber, @ContactCompany)
+                           ";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("EverBillAppCon");
@@ -70,9 +70,9 @@ namespace EverBill.Controllers
                 myCon.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@ContactFullName", emp.ContactFullName);
-                    myCommand.Parameters.AddWithValue("@ContactPhoneNumber", emp.ContactPhoneNumber);
-                    myCommand.Parameters.AddWithValue("@ContactCompany", emp.ContactCompany);
+                    myCommand.Parameters.AddWithValue("@ContactFullName", conp.ContactFullName);
+                    myCommand.Parameters.AddWithValue("@ContactPhoneNumber", conp.ContactPhoneNumber);
+                    myCommand.Parameters.AddWithValue("@ContactCompany", conp.ContactCompany);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -85,15 +85,15 @@ namespace EverBill.Controllers
 
         
         [HttpPut]
-        public JsonResult Put(Employee emp)
+        public JsonResult Put(ContactPerson conp)
         {
             string query = @"
                            update dbo.ContactPerson
                            set ContactFullName = @ContactFullName,
-                            ContactPhoneNumber = @ContactPhoneNumber,
-                            ContactCompany = @ContactCompany
-                            where ContactPersonId = @ContactPersonId
-                            ";
+                           ContactPhoneNumber = @ContactPhoneNumber,
+                           ContactCompany = @ContactCompany
+                           where ContactPersonId = @ContactPersonId
+                           ";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("EverBillAppCon");
@@ -103,10 +103,10 @@ namespace EverBill.Controllers
                 myCon.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@ContactPersonId", emp.ContactPersonId);
-                    myCommand.Parameters.AddWithValue("@ContactFullName", emp.ContactFullName);
-                    myCommand.Parameters.AddWithValue("@ContactPhoneNumber", emp.ContactPhoneNumber);
-                    myCommand.Parameters.AddWithValue("@ContactCompany", emp.ContactCompany);
+                    myCommand.Parameters.AddWithValue("@ContactPersonId", conp.ContactPersonId);
+                    myCommand.Parameters.AddWithValue("@ContactFullName", conp.ContactFullName);
+                    myCommand.Parameters.AddWithValue("@ContactPhoneNumber", conp.ContactPhoneNumber);
+                    myCommand.Parameters.AddWithValue("@ContactCompany", conp.ContactCompany);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();

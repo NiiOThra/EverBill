@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace EverBill.Models
 {
-    public class Employee
+    public class ContactPerson
     {
         public int ContactPersonId { get; set; }
         public string? ContactFullName { get; set; }
