@@ -35,7 +35,7 @@ namespace EverBill.Controllers
             from dbo.Customer";
 
             DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
+            string sqlDataSource = _configuration.GetConnectionString("EverBillAppCon");
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(sqlDataSource))
             {
@@ -62,7 +62,7 @@ namespace EverBill.Controllers
             (@CustomerName, @CustomerCVRnumber, @CustomerPhoneNumber, @CustomerAddress, @CustomerEmail, @ListOfProjects)";
 
             DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
+            string sqlDataSource = _configuration.GetConnectionString("EverBillAppCon");
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(sqlDataSource))
             {
@@ -100,7 +100,7 @@ namespace EverBill.Controllers
             where CustomerId = @CustomerId";
 
             DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
+            string sqlDataSource = _configuration.GetConnectionString("EverBillAppCon");
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(sqlDataSource))
             {
@@ -133,7 +133,7 @@ namespace EverBill.Controllers
                             ";
             
             DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
+            string sqlDataSource = _configuration.GetConnectionString("EverBillAppCon");
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(sqlDataSource))
             {

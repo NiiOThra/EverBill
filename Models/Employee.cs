@@ -7,8 +7,9 @@ namespace EverBill.Models
 {
     public class Employee
     {
-        public int EmployeeId { get; set; }
-        public string EmployeeName { get; set; }
-        public string PhotoFileName { get; set; }
+        public int ContactPersonId { get; set; }
+        public string? ContactFullName { get; set; }
+        public int ContactPhoneNumber { get; set; }
+        public string? ContactCompany { get; set; }
     }
 }
