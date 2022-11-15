@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "A9PxaGvITp74hjEvy4EgP8aq3GpXrOaXf/UFCI09fqs52YDIliC0K8ZAEkWcjsClrxP+rpWIZ9I+7lIOod4x2A==",
+  "dgSpecHash": "Wr2wDXdr3qAPZiVd/1R+grBhiBZglSJhmM4uuqTgQZ7SCeUOiDdFKIQbSZmpHvMasJiYt/IznmwF3PNIXgwvhQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\niior\\source\\repos\\EverBill\\EverBill\\EverBill.csproj",
+  "projectFilePath": "C:\\Users\\niior\\source\\repos\\EverBill\\EverBill\\EverBillBackend.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\niior\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\6.0.11\\microsoft.aspnetcore.jsonpatch.6.0.11.nupkg.sha512",
     "C:\\Users\\niior\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\6.0.11\\microsoft.aspnetcore.mvc.newtonsoftjson.6.0.11.nupkg.sha512",
