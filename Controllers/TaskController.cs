@@ -1,25 +1,17 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Hosting;
 using EverBill.Models;
-using System.IO;
 
 namespace EverBill.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CustomerController : ControllerBase
+    public class TaskController : Controller
     {
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _env;
-        public CustomerController(IConfiguration configuration, IWebHostEnvironment env)
+        public TaskController(IConfiguration configuration, IWebHostEnvironment env)
         {
             _configuration = configuration;
             _env = env;
@@ -29,10 +21,10 @@ namespace EverBill.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            string query = 
+            string query =
             @"select 
-            CustomerId, CustomerName, CustomerCVRnumber, CustomerPhoneNumber, CustomerAddress, CustomerEmail, ListOfProjects
-            from dbo.Customer";
+            TaskId, TaskName
+            from dbo.Task";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("EverBillAppCon");
@@ -53,13 +45,13 @@ namespace EverBill.Controllers
         }
 
         [HttpPost]
-        public JsonResult Post(Customer cus)
+        public JsonResult Post(Tasks task)
         {
-            string query = 
-            @"insert into dbo.Customer
-            (CustomerName, CustomerCVRnumber, CustomerPhoneNumber, CustomerAddress, CustomerEmail, ListOfProjects)
+            string query =
+            @"insert into dbo.Task
+            (TaskName)
             values 
-            (@CustomerName, @CustomerCVRnumber, @CustomerPhoneNumber, @CustomerAddress, @CustomerEmail, @ListOfProjects)";
+            (@TaskName)";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("EverBillAppCon");
@@ -69,12 +61,7 @@ namespace EverBill.Controllers
                 myCon.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@CustomerName", cus.CustomerName);
-                    myCommand.Parameters.AddWithValue("@CustomerCVRnumber", cus.CustomerCVRnumber);
-                    myCommand.Parameters.AddWithValue("@CustomerPhoneNumber", cus.CustomerPhoneNumber);
-                    myCommand.Parameters.AddWithValue("@CustomerAddress", cus.CustomerAddress);
-                    myCommand.Parameters.AddWithValue("@CustomerEmail", cus.CustomerEmail);
-                    myCommand.Parameters.AddWithValue("@ListOfProjects", cus.ListOfProjects);
+                    myCommand.Parameters.AddWithValue("@TaskName", task.TaskName);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -85,19 +72,14 @@ namespace EverBill.Controllers
             return new JsonResult("Added Successfully");
         }
 
-        
+
         [HttpPut]
-        public JsonResult Put(Customer cus)
+        public JsonResult Put(Tasks task)
         {
-            string query = 
-            @"update dbo.Customer set 
-            CustomerName = @CustomerName,
-            CustomerCVRnumber = @CustomerCVRnumber,
-            CustomerPhoneNumber = @CustomerPhoneNumber,
-            CustomerAddress = @CustomerAddress,
-            CustomerEmail = @CustomerEmail,
-            ListOfProjects = @ListOfProjects
-            where CustomerId = @CustomerId";
+            string query =
+            @"update dbo.Task set 
+            TaskName = @TaskName
+            where TaskId = @TaskId";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("EverBillAppCon");
@@ -107,20 +89,15 @@ namespace EverBill.Controllers
                 myCon.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@CustomerId", cus.CustomerId);
-                    myCommand.Parameters.AddWithValue("@CustomerName", cus.CustomerName);
-                    myCommand.Parameters.AddWithValue("@CustomerCVRnumber", cus.CustomerCVRnumber);
-                    myCommand.Parameters.AddWithValue("@CustomerPhoneNumber", cus.CustomerPhoneNumber);
-                    myCommand.Parameters.AddWithValue("@CustomerAddress", cus.CustomerAddress);
-                    myCommand.Parameters.AddWithValue("@CustomerEmail", cus.CustomerEmail);
-                    myCommand.Parameters.AddWithValue("@ListOfProjects", cus.ListOfProjects);
+                    myCommand.Parameters.AddWithValue("@TaskId", task.TaskId);
+                    myCommand.Parameters.AddWithValue("@TaskName", task.TaskName);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
                     myCon.Close();
                 }
             }
-            
+
             return new JsonResult("Updated Successfully");
         }
 
@@ -128,10 +105,10 @@ namespace EverBill.Controllers
         public JsonResult Delete(int id)
         {
             string query = @"
-                           delete from dbo.Customer
-                            where CustomerId=@CustomerId
+                           delete from dbo.Task
+                            where TaskId = @TaskId
                             ";
-            
+
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("EverBillAppCon");
             SqlDataReader myReader;
@@ -140,7 +117,7 @@ namespace EverBill.Controllers
                 myCon.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@CustomerId", id);
+                    myCommand.Parameters.AddWithValue("@TaskId", id);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -155,4 +132,3 @@ namespace EverBill.Controllers
 
     }
 }
-

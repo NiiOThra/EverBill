@@ -15,11 +15,11 @@ namespace EverBill.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EmployeeController : ControllerBase
+    public class ContactPersonController : ControllerBase
     {
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _env;
-        public EmployeeController(IConfiguration configuration, IWebHostEnvironment env)
+        public ContactPersonController(IConfiguration configuration, IWebHostEnvironment env)
         {
             _configuration = configuration;
             _env = env;
@@ -30,13 +30,13 @@ namespace EverBill.Controllers
         public JsonResult Get()
         {
             string query = @"
-                            select EmployeeId, EmployeeName,PhotoFileName
+                            select ContactPersonId, ContactFullName, ContactPhoneNumber, ContactCompany
                             from
-                            dbo.Employee
+                            dbo.ContactPerson
                             ";
 
             DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
+            string sqlDataSource = _configuration.GetConnectionString("EverBillAppCon");
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(sqlDataSource))
             {
@@ -54,24 +54,25 @@ namespace EverBill.Controllers
         }
         
         [HttpPost]
-        public JsonResult Post(Employee emp)
+        public JsonResult Post(ContactPerson conp)
         {
             string query = @"
-                           insert into dbo.Employee
-                           (EmployeeName,PhotoFileName)
-                    values (@EmployeeName,@PhotoFileName)
-                            ";
+                           insert into dbo.ContactPerson
+                           (ContactFullName, ContactPhoneNumber, ContactCompany)
+                           values (@ContactFullName, @ContactPhoneNumber, @ContactCompany)
+                           ";
 
             DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
+            string sqlDataSource = _configuration.GetConnectionString("EverBillAppCon");
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(sqlDataSource))
             {
                 myCon.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@EmployeeName", emp.EmployeeName);
-                    myCommand.Parameters.AddWithValue("@PhotoFileName", emp.PhotoFileName);
+                    myCommand.Parameters.AddWithValue("@ContactFullName", conp.ContactFullName);
+                    myCommand.Parameters.AddWithValue("@ContactPhoneNumber", conp.ContactPhoneNumber);
+                    myCommand.Parameters.AddWithValue("@ContactCompany", conp.ContactCompany);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -82,55 +83,58 @@ namespace EverBill.Controllers
             return new JsonResult("Added Successfully");
         }
 
-
+        
         [HttpPut]
-        public JsonResult Put(Employee emp)
+        public JsonResult Put(ContactPerson conp)
         {
             string query = @"
-                           update dbo.Employee
-                           set EmployeeName= @EmployeeName,
-                            PhotoFileName=@PhotoFileName
-                            where EmployeeId=@EmployeeId
-                            ";
+                           update dbo.ContactPerson
+                           set ContactFullName = @ContactFullName,
+                           ContactPhoneNumber = @ContactPhoneNumber,
+                           ContactCompany = @ContactCompany
+                           where ContactPersonId = @ContactPersonId
+                           ";
 
             DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
+            string sqlDataSource = _configuration.GetConnectionString("EverBillAppCon");
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(sqlDataSource))
             {
                 myCon.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@EmployeeId", emp.EmployeeId);
-                    myCommand.Parameters.AddWithValue("@EmployeeName", emp.EmployeeName);
-                    myCommand.Parameters.AddWithValue("@PhotoFileName", emp.PhotoFileName);
+                    myCommand.Parameters.AddWithValue("@ContactPersonId", conp.ContactPersonId);
+                    myCommand.Parameters.AddWithValue("@ContactFullName", conp.ContactFullName);
+                    myCommand.Parameters.AddWithValue("@ContactPhoneNumber", conp.ContactPhoneNumber);
+                    myCommand.Parameters.AddWithValue("@ContactCompany", conp.ContactCompany);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
                     myCon.Close();
                 }
+                
             }
 
             return new JsonResult("Updated Successfully");
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}")] 
         public JsonResult Delete(int id)
         {
             string query = @"
-                           delete from dbo.Employee
-                            where EmployeeId=@EmployeeId
-                            ";
+                           delete from dbo.ContactPerson
+                           where ContactPersonId = @ContactPersonId
+                           ";
 
             DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
+            string sqlDataSource = _configuration.GetConnectionString("EverBillAppCon");
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(sqlDataSource))
             {
                 myCon.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@EmployeeId", id);
+                    myCommand.Parameters.AddWithValue("@ContactPersonId", id);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -138,34 +142,8 @@ namespace EverBill.Controllers
                     myCon.Close();
                 }
             }
-
+            
             return new JsonResult("Deleted Successfully");
-        }
-
-
-        [Route("SaveFile")]
-        [HttpPost]
-        public JsonResult SaveFile()
-        {
-            try
-            {
-                var httpRequest = Request.Form;
-                var postedFile = httpRequest.Files[0];
-                string filename = postedFile.FileName;
-                var physicalPath = _env.ContentRootPath + "/Photos/" + filename;
-
-                using (var stream = new FileStream(physicalPath, FileMode.Create))
-                {
-                    postedFile.CopyTo(stream);
-                }
-
-                return new JsonResult(filename);
-            }
-            catch (Exception)
-            {
-
-                return new JsonResult("anonymous.png");
-            }
         }
 
     }
