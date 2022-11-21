@@ -1,8 +1,8 @@
 {
   "Version": 1,
-  "Hash": "Z7c1vV2YmzeIcCvC8+5j3IXC9SrIDi0qHkhAaVYSN+8=",
-  "Source": "EverBill",
-  "BasePath": "_content/EverBill",
+  "Hash": "4mnV0o1LnX/Z63mwLcu9eAmA2ebnZqhBl23AQ0N3mKM=",
+  "Source": "EverBillBackend",
+  "BasePath": "_content/EverBillBackend",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
