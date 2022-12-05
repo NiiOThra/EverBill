@@ -31,7 +31,7 @@ namespace EverBill.Controllers
         {
             string query = 
             @"select 
-            CustomerId, CustomerName, CustomerCVRnumber, CustomerPhoneNumber, CustomerAddress, CustomerEmail, ListOfProjects
+            CustomerId, CustomerName, CustomerCVRnumber, CustomerPhoneNumber, CustomerAddress, CustomerEmail, ProjectId
             from dbo.Customer";
 
             DataTable table = new DataTable();
@@ -53,13 +53,13 @@ namespace EverBill.Controllers
         }
 
         [HttpPost]
-        public JsonResult Post(Customer cus)
+        public JsonResult Post(Customer cus)//, ListOfProjects , @ListOfProjects
         {
-            string query = 
+            string query =
             @"insert into dbo.Customer
-            (CustomerName, CustomerCVRnumber, CustomerPhoneNumber, CustomerAddress, CustomerEmail, ListOfProjects)
+            (CustomerName, CustomerCVRnumber, CustomerPhoneNumber, CustomerAddress, CustomerEmail, ProjectId) 
             values 
-            (@CustomerName, @CustomerCVRnumber, @CustomerPhoneNumber, @CustomerAddress, @CustomerEmail, @ListOfProjects)";
+            (@CustomerName, @CustomerCVRnumber, @CustomerPhoneNumber, @CustomerAddress, @CustomerEmail, @ProjectId)";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("EverBillAppCon");
@@ -74,7 +74,8 @@ namespace EverBill.Controllers
                     myCommand.Parameters.AddWithValue("@CustomerPhoneNumber", cus.CustomerPhoneNumber);
                     myCommand.Parameters.AddWithValue("@CustomerAddress", cus.CustomerAddress);
                     myCommand.Parameters.AddWithValue("@CustomerEmail", cus.CustomerEmail);
-                    myCommand.Parameters.AddWithValue("@ListOfProjects", cus.ListOfProjects);
+                    myCommand.Parameters.AddWithValue("@ProjectId", cus.ProjectId);
+                    //myCommand.Parameters.AddWithValue("@ListOfProjects", cus.ListOfProjects);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -89,14 +90,14 @@ namespace EverBill.Controllers
         [HttpPut]
         public JsonResult Put(Customer cus)
         {
-            string query = 
+            string query =
             @"update dbo.Customer set 
             CustomerName = @CustomerName,
             CustomerCVRnumber = @CustomerCVRnumber,
             CustomerPhoneNumber = @CustomerPhoneNumber,
             CustomerAddress = @CustomerAddress,
             CustomerEmail = @CustomerEmail,
-            ListOfProjects = @ListOfProjects
+            ProjectId = @ProjectId
             where CustomerId = @CustomerId";
 
             DataTable table = new DataTable();
@@ -113,7 +114,7 @@ namespace EverBill.Controllers
                     myCommand.Parameters.AddWithValue("@CustomerPhoneNumber", cus.CustomerPhoneNumber);
                     myCommand.Parameters.AddWithValue("@CustomerAddress", cus.CustomerAddress);
                     myCommand.Parameters.AddWithValue("@CustomerEmail", cus.CustomerEmail);
-                    myCommand.Parameters.AddWithValue("@ListOfProjects", cus.ListOfProjects);
+                    myCommand.Parameters.AddWithValue("@ProjectId", cus.ProjectId);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();

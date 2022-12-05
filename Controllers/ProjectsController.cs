@@ -23,7 +23,7 @@ namespace EverBill.Controllers
         {
             string query =
             @"select 
-            ProjectId, ProjectName, ProjectListOfTasks, ProjectCompany
+            ProjectId, ProjectName, ProjectPrice
             from dbo.Projects";
 
             DataTable table = new DataTable();
@@ -49,9 +49,9 @@ namespace EverBill.Controllers
         {
             string query =
             @"insert into dbo.Projects
-            (ProjectName, ProjectListOfTasks, ProjectCompany)
+            (ProjectName, ProjectPrice)
             values 
-            (@ProjectName, @ProjectListOfTasks, @ProjectCompany)";
+            (@ProjectName, @ProjectPrice)";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("EverBillAppCon");
@@ -62,8 +62,9 @@ namespace EverBill.Controllers
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
                     myCommand.Parameters.AddWithValue("@ProjectName", proj.ProjectName);
-                    myCommand.Parameters.AddWithValue("@ProjectListOfTasks", proj.ProjectListOfTasks);
-                    myCommand.Parameters.AddWithValue("@ProjectCompany", proj.ProjectCompany);
+                    myCommand.Parameters.AddWithValue("@ProjectPrice", proj.ProjectPrice);
+                    //myCommand.Parameters.AddWithValue("@ProjectListOfTasks", proj.ProjectListOfTasks);
+                    //myCommand.Parameters.AddWithValue("@ProjectCompany", proj.ProjectCompany);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -80,9 +81,8 @@ namespace EverBill.Controllers
         {
             string query =
             @"update dbo.Projects set 
-            ProjectName = @ProjectName,
-            ProjectListOfTasks = @ProjectListOfTasks,
-            ProjectCompany = @ProjectCompany
+            ProjectName = @ProjectName, 
+            ProjectPrice = @ProjectPrice
             where ProjectId = @ProjectId";
 
             DataTable table = new DataTable();
@@ -95,8 +95,9 @@ namespace EverBill.Controllers
                 {
                     myCommand.Parameters.AddWithValue("@ProjectId", proj.ProjectId);
                     myCommand.Parameters.AddWithValue("@ProjectName", proj.ProjectName);
-                    myCommand.Parameters.AddWithValue("@ProjectListOfTasks", proj.ProjectListOfTasks);
-                    myCommand.Parameters.AddWithValue("@ProjectCompany", proj.ProjectCompany);
+                    myCommand.Parameters.AddWithValue("@ProjectPrice", proj.ProjectPrice);
+                    //myCommand.Parameters.AddWithValue("@ProjectListOfTasks", proj.ProjectListOfTasks);
+                    //myCommand.Parameters.AddWithValue("@ProjectCompany", proj.ProjectCompany);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();

@@ -9,5 +9,6 @@
         public string? CustomerAddress { get; set; }
         public string? CustomerEmail { get; set; }
         public string? ListOfProjects { get; set; }
+        public int ProjectId { get; set; }
     }
 }
