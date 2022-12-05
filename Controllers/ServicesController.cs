@@ -7,11 +7,11 @@ namespace EverBill.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProjectsController : Controller
+    public class ServicesController : Controller
     {
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _env;
-        public ProjectsController(IConfiguration configuration, IWebHostEnvironment env)
+        public ServicesController(IConfiguration configuration, IWebHostEnvironment env)
         {
             _configuration = configuration;
             _env = env;
@@ -23,8 +23,8 @@ namespace EverBill.Controllers
         {
             string query =
             @"select 
-            ProjectId, ProjectName, ProjectPrice
-            from dbo.Projects";
+            ServiceId, ServiceName, ServicePrice
+            from dbo.Services";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("EverBillAppCon");
@@ -45,13 +45,13 @@ namespace EverBill.Controllers
         }
         
         [HttpPost]
-        public JsonResult Post(Projects proj)
+        public JsonResult Post(Services serv)
         {
             string query =
-            @"insert into dbo.Projects
-            (ProjectName, ProjectPrice)
+            @"insert into dbo.Services
+            (ServiceName, ServicePrice)
             values 
-            (@ProjectName, @ProjectPrice)";
+            (@ServiceName, @ServicePrice)";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("EverBillAppCon");
@@ -61,10 +61,10 @@ namespace EverBill.Controllers
                 myCon.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@ProjectName", proj.ProjectName);
-                    myCommand.Parameters.AddWithValue("@ProjectPrice", proj.ProjectPrice);
-                    //myCommand.Parameters.AddWithValue("@ProjectListOfTasks", proj.ProjectListOfTasks);
-                    //myCommand.Parameters.AddWithValue("@ProjectCompany", proj.ProjectCompany);
+                    myCommand.Parameters.AddWithValue("@ServiceName", serv.ServiceName);
+                    myCommand.Parameters.AddWithValue("@ServicePrice", serv.ServicePrice);
+                    //myCommand.Parameters.AddWithValue("@servectListOfTasks", serv.projectListOfTasks);
+                    //myCommand.Parameters.AddWithValue("@servectCompany", serv.projectCompany);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -77,13 +77,13 @@ namespace EverBill.Controllers
 
 
         [HttpPut]
-        public JsonResult Put(Projects proj)
+        public JsonResult Put(Services serv)
         {
             string query =
-            @"update dbo.Projects set 
-            ProjectName = @ProjectName, 
-            ProjectPrice = @ProjectPrice
-            where ProjectId = @ProjectId";
+            @"update dbo.Services set 
+            ServiceName = @ServiceName, 
+            ServicePrice = @ServicePrice
+            where ServiceId = @ServiceId";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("EverBillAppCon");
@@ -93,11 +93,11 @@ namespace EverBill.Controllers
                 myCon.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@ProjectId", proj.ProjectId);
-                    myCommand.Parameters.AddWithValue("@ProjectName", proj.ProjectName);
-                    myCommand.Parameters.AddWithValue("@ProjectPrice", proj.ProjectPrice);
-                    //myCommand.Parameters.AddWithValue("@ProjectListOfTasks", proj.ProjectListOfTasks);
-                    //myCommand.Parameters.AddWithValue("@ProjectCompany", proj.ProjectCompany);
+                    myCommand.Parameters.AddWithValue("@ServiceId", serv.ServiceId);
+                    myCommand.Parameters.AddWithValue("@ServiceName", serv.ServiceName);
+                    myCommand.Parameters.AddWithValue("@ServicePrice", serv.ServicePrice);
+                    //myCommand.Parameters.AddWithValue("@servectListOfTasks", serv.servectListOfTasks);
+                    //myCommand.Parameters.AddWithValue("@servectCompany", serv.servectCompany);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -113,8 +113,8 @@ namespace EverBill.Controllers
         public JsonResult Delete(int id)
         {
             string query = @"
-                           delete from dbo.Projects
-                           where ProjectId = @ProjectId
+                           delete from dbo.Services
+                           where ServiceId = @ServiceId
                            ";
 
             DataTable table = new DataTable();
@@ -125,7 +125,7 @@ namespace EverBill.Controllers
                 myCon.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@ProjectId", id);
+                    myCommand.Parameters.AddWithValue("@ServiceId", id);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
