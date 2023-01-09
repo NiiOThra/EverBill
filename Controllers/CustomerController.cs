@@ -31,7 +31,7 @@ namespace EverBill.Controllers
         {
             string query = 
             @"select 
-            CustomerId, CustomerName, CustomerCVRnumber, CustomerPhoneNumber, CustomerAddress, CustomerEmail, ProjectId
+            CustomerId, CustomerName, CustomerCVRnumber, CustomerPhoneNumber, CustomerAddress, CustomerEmail
             from dbo.Customer";
 
             DataTable table = new DataTable();
@@ -52,14 +52,44 @@ namespace EverBill.Controllers
             return new JsonResult(table);
         }
 
+
+        [HttpGet("{id}")]
+        public JsonResult Get(int id)
+        {
+            string query =
+            @"select 
+            CustomerId, CustomerName, CustomerCVRnumber, CustomerPhoneNumber, CustomerAddress, CustomerEmail
+            from dbo.Customer where CustomerId = @CustomerId";
+
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("EverBillAppCon");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myCommand.Parameters.AddWithValue("@CustomerId", id);
+
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+
+            return new JsonResult(table);
+        }
+
+
         [HttpPost]
-        public JsonResult Post(Customer cus)//, ListOfProjects , @ListOfProjects
+        public JsonResult Post(Customer cus)
         {
             string query =
             @"insert into dbo.Customer
-            (CustomerName, CustomerCVRnumber, CustomerPhoneNumber, CustomerAddress, CustomerEmail, ProjectId) 
+            (CustomerName, CustomerCVRnumber, CustomerPhoneNumber, CustomerAddress, CustomerEmail) 
             values 
-            (@CustomerName, @CustomerCVRnumber, @CustomerPhoneNumber, @CustomerAddress, @CustomerEmail, @ProjectId)";
+            (@CustomerName, @CustomerCVRnumber, @CustomerPhoneNumber, @CustomerAddress, @CustomerEmail)";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("EverBillAppCon");
@@ -74,8 +104,6 @@ namespace EverBill.Controllers
                     myCommand.Parameters.AddWithValue("@CustomerPhoneNumber", cus.CustomerPhoneNumber);
                     myCommand.Parameters.AddWithValue("@CustomerAddress", cus.CustomerAddress);
                     myCommand.Parameters.AddWithValue("@CustomerEmail", cus.CustomerEmail);
-                    myCommand.Parameters.AddWithValue("@ProjectId", cus.ProjectId);
-                    //myCommand.Parameters.AddWithValue("@ListOfProjects", cus.ListOfProjects);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -96,8 +124,7 @@ namespace EverBill.Controllers
             CustomerCVRnumber = @CustomerCVRnumber,
             CustomerPhoneNumber = @CustomerPhoneNumber,
             CustomerAddress = @CustomerAddress,
-            CustomerEmail = @CustomerEmail,
-            ProjectId = @ProjectId
+            CustomerEmail = @CustomerEmail
             where CustomerId = @CustomerId";
 
             DataTable table = new DataTable();
@@ -114,7 +141,6 @@ namespace EverBill.Controllers
                     myCommand.Parameters.AddWithValue("@CustomerPhoneNumber", cus.CustomerPhoneNumber);
                     myCommand.Parameters.AddWithValue("@CustomerAddress", cus.CustomerAddress);
                     myCommand.Parameters.AddWithValue("@CustomerEmail", cus.CustomerEmail);
-                    myCommand.Parameters.AddWithValue("@ProjectId", cus.ProjectId);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -128,10 +154,7 @@ namespace EverBill.Controllers
         [HttpDelete("{id}")]
         public JsonResult Delete(int id)
         {
-            string query = @"
-                           delete from dbo.Customer
-                            where CustomerId=@CustomerId
-                            ";
+            string query = @"delete from dbo.Customer where CustomerId = @CustomerId";
             
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("EverBillAppCon");

@@ -23,7 +23,7 @@ namespace EverBill.Controllers
         {
             string query =
             @"select 
-            ServiceId, ServiceName, ServicePrice
+            ServiceId, ServiceName, ServicePrice, ServiceQty, ServiceTotal, CustomerId
             from dbo.Services";
 
             DataTable table = new DataTable();
@@ -49,9 +49,9 @@ namespace EverBill.Controllers
         {
             string query =
             @"insert into dbo.Services
-            (ServiceName, ServicePrice)
+            (ServiceName, ServicePrice, ServiceQty, ServiceTotal, CustomerId)
             values 
-            (@ServiceName, @ServicePrice)";
+            (@ServiceName, @ServicePrice, @ServiceQty, @ServiceTotal, @CustomerId)";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("EverBillAppCon");
@@ -63,8 +63,11 @@ namespace EverBill.Controllers
                 {
                     myCommand.Parameters.AddWithValue("@ServiceName", serv.ServiceName);
                     myCommand.Parameters.AddWithValue("@ServicePrice", serv.ServicePrice);
-                    //myCommand.Parameters.AddWithValue("@servectListOfTasks", serv.projectListOfTasks);
-                    //myCommand.Parameters.AddWithValue("@servectCompany", serv.projectCompany);
+                    myCommand.Parameters.AddWithValue("@ServiceQty", serv.ServiceQty);
+                    myCommand.Parameters.AddWithValue("@ServiceTotal", serv.ServiceTotal);
+                    myCommand.Parameters.AddWithValue("@CustomerId", serv.CustomerId);
+                    //myCommand.Parameters.AddWithValue("@ProjectListOfTasks", proj.ProjectListOfTasks);
+                    //myCommand.Parameters.AddWithValue("@ProjectCompany", proj.ProjectCompany);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -82,7 +85,10 @@ namespace EverBill.Controllers
             string query =
             @"update dbo.Services set 
             ServiceName = @ServiceName, 
-            ServicePrice = @ServicePrice
+            ServicePrice = @ServicePrice,
+            ServiceQty = @ServiceQty,
+            ServiceTotal = @ServiceTotal,
+            CustomerId = @CustomerId
             where ServiceId = @ServiceId";
 
             DataTable table = new DataTable();
@@ -96,8 +102,11 @@ namespace EverBill.Controllers
                     myCommand.Parameters.AddWithValue("@ServiceId", serv.ServiceId);
                     myCommand.Parameters.AddWithValue("@ServiceName", serv.ServiceName);
                     myCommand.Parameters.AddWithValue("@ServicePrice", serv.ServicePrice);
-                    //myCommand.Parameters.AddWithValue("@servectListOfTasks", serv.servectListOfTasks);
-                    //myCommand.Parameters.AddWithValue("@servectCompany", serv.servectCompany);
+                    myCommand.Parameters.AddWithValue("@ServiceQty", serv.ServiceQty);
+                    myCommand.Parameters.AddWithValue("@ServiceTotal", serv.ServiceTotal);
+                    myCommand.Parameters.AddWithValue("@CustomerId", serv.CustomerId);
+                    //myCommand.Parameters.AddWithValue("@ProjectListOfTasks", proj.ProjectListOfTasks);
+                    //myCommand.Parameters.AddWithValue("@ProjectCompany", proj.ProjectCompany);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
